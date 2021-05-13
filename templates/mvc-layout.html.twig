@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>MVC</title>
+        <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+        {# import css #}
+        {# {{ encore_entry_link_tags('app') }} #}
+        <link rel="stylesheet" type="text/css" href="{{ app.request.getBaseURL() }}/style.css">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;600&display=swap" rel="stylesheet">
+        {# <link rel="stylesheet" type="text/css" href="{{ asset('build/app.css') }}"> #}
+    </head>
+    <body>
+        <header>
+            <nav>
+                <a href='{{ app.request.getBaseURL() }}/'>Home</a> |
+                <a href='{{ app.request.getBaseURL() }}/books'>Books</a> |
+                <a href='{{ app.request.getBaseURL() }}/game21'>Game 21</a> |
+                <a href='{{ app.request.getBaseURL() }}/yatzee'>Yatzy</a> |
+                <a href='{{ app.request.getBaseURL() }}/top-scores'>Top Scores</a>
+            </nav>
+        </header>
+
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer>
+            <p>This is the footer.</p>
+        </footer>
+    </body>
+</html>
