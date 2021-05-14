@@ -53,6 +53,9 @@ class Game21Controller extends AbstractController
     public function game21play(): Response
     {
         $playerName = $this->session->get('playerName');
+        if ($playerName === "") {
+            $playerName = "anonymous";
+        }
         $diceQty =  $this->session->get('diceQty');
 
         if (array_key_exists('button1', $_POST)) {
