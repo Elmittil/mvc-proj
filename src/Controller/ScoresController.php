@@ -32,7 +32,7 @@ class ScoresController extends AbstractController
         }
 
         $data = [
-            "header" => "Recommended in New Yorker",
+            "header" => "Game 21",
             "scoresGame21" => $allScoresGame21,
             "scoresYatzee" => $allScoresYatzee,
         ];
