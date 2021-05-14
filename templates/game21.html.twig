@@ -2,8 +2,6 @@
 
 {% block content %}
 <div class="game21-wrapper">
-    <h1 class="game-title">{{ header }}</h1>
-
     <form action="{{ app.request.getBaseURL() }}/game21/set-hand" method="post" class="die-choice">
         <div class="radio-b">
             <label for="playername">Players name</label>

@@ -2,8 +2,8 @@
 
 {% block content %}
 <div class="game21-wrapper">
-    <h1 class="game-title">{{ header }}</h1>
-    <div class="game-score">
+    
+    <div class="player-computer-title">
         <p>{{ player }} VS Computer</p>
     </div>
     {% if app.session.get('message') == "" %}
@@ -12,8 +12,10 @@
             <input type="submit" name="button2" class="roll-button" value="Pass" />
         </form>
     {% else %}
-        <h1 style="color: red;">{{ app.session.get('message') }}</h1>
-        <p><a href="{{ app.request.getBaseURL() }}/game21/reset"><input type='submit' class='new-game-button' value='NEXT ROUND'/></a></p>
+        <div class="player-computer-title">
+            <h3 style="color: red; font">{{ app.session.get('message') }}</h3>
+            <p><a href="{{ app.request.getBaseURL() }}/game21/reset"><input type='submit' class='new-game-button' value='NEXT ROUND'/></a></p>
+        </div>
     {% endif %}
 
     <div class="game-score">

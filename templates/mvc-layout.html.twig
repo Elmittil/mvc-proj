@@ -12,12 +12,13 @@
     </head>
     <body>
         <header>
+        
+        <h1 class="game-title">Game 21</h1>
+        
             <nav>
-                <a href='{{ app.request.getBaseURL() }}/'>Home</a> |
-                <a href='{{ app.request.getBaseURL() }}/books'>Books</a> |
-                <a href='{{ app.request.getBaseURL() }}/game21'>Game 21</a> |
-                <a href='{{ app.request.getBaseURL() }}/yatzee'>Yatzy</a> |
-                <a href='{{ app.request.getBaseURL() }}/top-scores'>Top Scores</a>
+                <a href='{{ app.request.getBaseURL() }}/'>Rules</a>
+                <a href='{{ app.request.getBaseURL() }}/game21'>Play</a>
+                <a href='{{ app.request.getBaseURL() }}/top-scores'>Scores</a>
             </nav>
         </header>
 
@@ -26,7 +27,7 @@
         </main>
 
         <footer>
-            <p>This is the footer.</p>
+            <p>&#169; Developed by Anya Kovalieva</p>
         </footer>
     </body>
 </html>
