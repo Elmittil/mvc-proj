@@ -15,6 +15,10 @@
     <exclude-pattern>vendor</exclude-pattern>
     <exclude-pattern>migrations</exclude-pattern>
     <exclude-pattern>src/Kernel.php</exclude-pattern>
+    <exclude-pattern>src/Entity</exclude-pattern>
+    <exclude-pattern>src/Form</exclude-pattern>
+    <exclude-pattern>src/Security</exclude-pattern>
+    <exclude-pattern>/src/Controller/SecurityController.php</exclude-pattern>
 
 
     <rule ref="rulesets/design.xml" />

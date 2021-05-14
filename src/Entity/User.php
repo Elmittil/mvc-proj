@@ -71,7 +71,7 @@ class User implements UserInterface
         return $this;
     }
 
-    
+
 
     public function getPassword(): ?string
     {
