@@ -111,7 +111,8 @@ class Game21Controller extends AbstractController
      */
     public function game21SaveScore(): Response
     {
-        $playerName = $this->session->get('playerName');
+        $user = $this->getUser();
+        $playerName = $user->getUsername();
 
         $totalScores = $this->session->get('score');
         $playerScore = $this->countScores($totalScores);
@@ -206,6 +207,8 @@ class Game21Controller extends AbstractController
         $hand = new DiceHand($diceQty, "regular");
         $hand->roll($diceQty);
         $rolled =  $hand->getRollSum();
+        $handRolledDice = $hand->getLastHandRollArray($diceQty);
+        $this->saveRolledDiceToDB($handRolledDice);
         return $rolled;
     }
 
@@ -304,11 +307,10 @@ class Game21Controller extends AbstractController
     private function extractUserData(): array
     {
         $user = $this->getUser();
-        $userData = array();
         if ($user) {
             $playerName = $user->getUsername();
             $playerCredit = $this->getUserCredit($playerName);
-            if (!$playerCredit) {
+            if ($playerCredit === null) {
                 $playerCredit = "This player has no credit";
             }
         }
@@ -329,5 +331,14 @@ class Game21Controller extends AbstractController
             return true;
         }
         return false;
+    }
+
+    private function saveRolledDiceToDB(array $rolledDice)
+    {
+        $logic = new BankBusinessLogic($this->getDoctrine());
+        foreach ($rolledDice as $die)
+        {
+            $logic->saveRolledDiceValuesToDB($die);
+        }
     }
 }
