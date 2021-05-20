@@ -3,6 +3,7 @@
 namespace App\BusinessLogic;
 
 use App\Entity\Bank;
+use App\Entity\Dicestatistic;
 use Doctrine\Persistence\ManagerRegistry;
 
 class BankBusinessLogic
@@ -50,10 +51,29 @@ class BankBusinessLogic
         }
     }
 
-    public function getAccount(string $playerName): ?Bank
+    private function getAccount(string $playerName): ?Bank
     {
         $repository = $this->registry->getRepository(Bank::class);
         $account = $repository->findOneBy(['player_name' => $playerName]);
         return $account;
+    }
+
+    public function saveRolledDiceValues(int $dieValue)
+    {
+        $die = $this->getDieFromDB($dieValue);
+        $timesBeenRolled = $die->getOccurrence();
+        $newValue = $timesBeenRolled + 1;
+        $die->setOccurrence($newValue);
+        
+        $entityManager = $this->registry->getManager();
+        $entityManager->persist($account);
+        $entityManager->flush();
+    }
+
+    private function getDieFromDB(int $dieValue): ?Dicestatistic
+    {
+        $repository = $this->registry->getRepository(Dicestatistic::class);
+        $die = $repository->findOneBy(['dice_value' => $dieValue]);
+        return $die;
     }
 }
