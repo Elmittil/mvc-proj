@@ -60,5 +60,4 @@ class Bank
         $this->credit = $this->credit + $creditToAdd;
         return $this;
     }
-
 }

@@ -27,7 +27,7 @@ class BankBusinessLogic
 
     public function updateDbWithNewCredit(int $credit, string $playerName)
     {
-        if ($playerName === "anonymous"){
+        if ($playerName === "anonymous") {
             return;
         }
         $account = $this->getAccount($playerName);
@@ -40,13 +40,12 @@ class BankBusinessLogic
 
     public function getCreditTotal(string $playerName)
     {
-       $account = $this->getAccount($playerName);
+        $account = $this->getAccount($playerName);
         if ($account) {
             $credit = $account->getCredit();
             return $credit;
         }
-        if (!$account)
-        {
+        if (!$account) {
             return null;
         }
     }

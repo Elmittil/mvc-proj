@@ -100,7 +100,7 @@ footer {
 }
 
 .roll-button:disabled{
-        cursor: none; 
+    cursor: none;
 }
 
 .bet-button {
@@ -167,7 +167,7 @@ footer {
 .play-panel fieldset:disabled,
 fieldset[disabled]{
     opacity: 0.5;
-    cursor: none; 
+    cursor: none;
 }
 
 .game-panel {

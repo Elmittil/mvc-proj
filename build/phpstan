@@ -1,0 +1,8 @@
+ ------ -------------------------------------------- 
+  Line   src/BankBusinessLogic.php                   
+ ------ -------------------------------------------- 
+  48     Negated boolean expression is always true.  
+ ------ -------------------------------------------- 
+
+ [ERROR] Found 1 error                                                                                                  
+

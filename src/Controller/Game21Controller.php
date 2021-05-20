@@ -13,7 +13,6 @@ use App\Entity\User;
 use App\Entity\Bank;
 use App\BusinessLogic\BankBusinessLogic;
 
-
 require_once __DIR__ . "/../../bin/bootstrap.php";
 
 class Game21Controller extends AbstractController
@@ -88,13 +87,13 @@ class Game21Controller extends AbstractController
         if (null == $this->request->request->get('diceQty')) {
             $diceQty = 1;
             $this->get('session')->set('diceQty', $diceQty);
-            
+
             return $this->redirectToRoute('app_game21_game21play');
         }
 
         $diceQty = $this->request->request->get('diceQty');
         $this->get('session')->set('diceQty', $diceQty);
-    
+
         return $this->redirectToRoute('app_game21_game21play');
     }
 
@@ -251,8 +250,7 @@ class Game21Controller extends AbstractController
 
     private function payBet(?int $bet, string $playerName)
     {
-        if ($playerName === "anonymous")
-        {
+        if ($playerName === "anonymous") {
             return;
         }
         $logic = new BankBusinessLogic($this->getDoctrine());
@@ -264,10 +262,10 @@ class Game21Controller extends AbstractController
     {
         if ($total > 21) {
             if ($who === "COMPUTER") {
-               $this->computerWins($playerName);
+                $this->computerWins($playerName);
             }
             if ($who === "YOU") {
-               $this->playerWins($playerName);
+                $this->playerWins($playerName);
             }
             return true;
         }
@@ -307,12 +305,10 @@ class Game21Controller extends AbstractController
     {
         $user = $this->getUser();
         $userData = array();
-        if ($user) 
-        {
+        if ($user) {
             $playerName = $user->getUsername();
             $playerCredit = $this->getUserCredit($playerName);
-            if (!$playerCredit) 
-            {
+            if (!$playerCredit) {
                 $playerCredit = "This player has no credit";
             }
         }
@@ -329,8 +325,7 @@ class Game21Controller extends AbstractController
     private function isLoggedIn(): bool
     {
         $user = $this->getUser();
-        if ($user)
-        {
+        if ($user) {
             return true;
         }
         return false;
