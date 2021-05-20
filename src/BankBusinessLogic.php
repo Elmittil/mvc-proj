@@ -66,7 +66,7 @@ class BankBusinessLogic
         $die->setOccurrence($newValue);
         
         $entityManager = $this->registry->getManager();
-        $entityManager->persist($account);
+        $entityManager->persist($die);
         $entityManager->flush();
     }
 
