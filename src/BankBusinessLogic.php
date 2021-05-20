@@ -58,7 +58,7 @@ class BankBusinessLogic
         return $account;
     }
 
-    public function saveRolledDiceValues(int $dieValue)
+    public function saveRolledDiceValuesToDB(int $dieValue)
     {
         $die = $this->getDieFromDB($dieValue);
         $timesBeenRolled = $die->getOccurrence();
