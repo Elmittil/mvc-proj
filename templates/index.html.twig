@@ -1,0 +1,22 @@
+{% extends "mvc-layout.html.twig" %}
+
+{% block content %}
+<div class="centered-content">
+    <div class="start-panel">
+        <a href='{{ app.request.getBaseURL() }}/login'>
+            <input type='submit' class="new-game-button" value='Login'/>
+        </a>
+
+        <a href='{{ app.request.getBaseURL() }}/register'>
+            <input type='submit' class="new-game-button" value='Register'/>
+        </a>
+
+        <a href='{{ app.request.getBaseURL() }}/start'>
+            <input type='submit' class="new-game-button" value='Play anonymously'/>
+        </a>
+    </div>
+    {% apply markdown_to_html %}
+    {{ text }}
+    {% endapply %}
+</div>
+{% endblock %}
