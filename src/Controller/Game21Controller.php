@@ -112,6 +112,10 @@ class Game21Controller extends AbstractController
     public function game21SaveScore(): Response
     {
         $user = $this->getUser();
+        if (!$user){
+            $this->resetGame();
+            return $this->redirectToRoute('app_game21_game21start');
+        }
         $playerName = $user->getUsername();
 
         $totalScores = $this->session->get('score');
