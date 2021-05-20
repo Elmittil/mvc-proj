@@ -18,7 +18,7 @@ class SecurityController extends AbstractController
         // $providedUsername = $this->getUser();
 
         if ($this->getUser()) {
-            return $this->redirectToRoute('app_game21_game21play');
+            return $this->redirectToRoute('app_game21_game21start');
         }
 
         // get the login error if there is one
