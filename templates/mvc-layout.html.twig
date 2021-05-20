@@ -16,9 +16,15 @@
         <h1 class="game-title">Game 21</h1>
         
             <nav>
-                <a href='{{ app.request.getBaseURL() }}/'>Rules</a>
-                <a href='{{ app.request.getBaseURL() }}/game21'>Play</a>
-                <a href='{{ app.request.getBaseURL() }}/top-scores'>Scores</a>
+                <div class="game-nav">
+                    <a href='{{ app.request.getBaseURL() }}/'>Start</a>
+                    <a href='{{ app.request.getBaseURL() }}/top-scores'>Scores</a>
+                    <a href='{{ app.request.getBaseURL() }}/bank'>Buy credit</a>
+                </div>
+                <div class="login-nav">
+                    <a href='{{ app.request.getBaseURL() }}/login'>Login</a>
+                    <a href='{{ app.request.getBaseURL() }}/logout'>Logout</a>
+                </div>
             </nav>
         </header>
 
