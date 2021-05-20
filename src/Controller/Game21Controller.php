@@ -9,6 +9,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Dice\DiceHand;
 use App\Entity\Score;
+use App\Entity\User;
+use App\Entity\Bank;
+use App\BusinessLogic\BankBusinessLogic;
+
 
 require_once __DIR__ . "/../../bin/bootstrap.php";
 
@@ -17,7 +21,6 @@ class Game21Controller extends AbstractController
     private $session;
     private $request;
 
-
     public function __construct(SessionInterface $session)
     {
         $this->session = $session;
@@ -25,15 +28,14 @@ class Game21Controller extends AbstractController
     }
 
     /**
-     * @Route("/game21")
+     * @Route("/start")
      */
     public function game21start(): Response
     {
-
+        $userData = $this->extractUserData();
         $data = [
             "header" => "Game21",
-            "message" => "Let's play again",
-
+            'player' => $userData[0],
         ];
 
         $this->session->set('rollPlayer', 0);
@@ -43,56 +45,61 @@ class Game21Controller extends AbstractController
         $this->session->set('totalComputer', 0);
         $this->session->set('message', "");
 
-
         return $this->render('game21.html.twig', $data);
     }
 
     /**
-     * @Route("/game21/play", methods={"GET", "POST"})
+     * @Route("/play", methods={"GET", "POST"})
      */
     public function game21play(): Response
     {
-        $playerName = $this->session->get('playerName');
-        if ($playerName === "") {
-            $playerName = "anonymous";
-        }
+        $userData = $this->extractUserData();
+        $loggedIn = $this->isLoggedIn();
+
         $diceQty =  $this->session->get('diceQty');
 
-        if (array_key_exists('button1', $_POST)) {
-            $this->buttonRoll((int)$diceQty);
-        } else if (array_key_exists('button2', $_POST)) {
-            $this->buttonPass((int)$diceQty);
+        $bet = $this->request->request->get('bet-ammount');
+        if (array_key_exists('bet-button', $_POST)) {
+            $this->session->set('bet', $bet);
         }
+        $bet = $this->session->get('bet');
 
+        if (array_key_exists('button1', $_POST)) {
+            $this->buttonRoll((int)$diceQty, $userData[0]);
+        } else if (array_key_exists('button2', $_POST)) {
+            $this->buttonPass((int)$diceQty, $userData[0]);
+        }
+        $userData = $this->extractUserData();
         $data = [
             "header" => "GAME 21",
-            'player' => $playerName,
+            'player' => $userData[0],
+            'credit' => $userData[1],
+            'loggedIn' => $loggedIn,
+            'bet' => $bet,
         ];
-
         return $this->render('play.html.twig', $data);
     }
 
     /**
-     * @Route("/game21/set-hand",  methods={"POST"})
+     * @Route("/set-hand",  methods={"POST"})
      */
     public function game21setHand(): Response
     {
-        $playername = $this->request->request->get('playername');
         if (null == $this->request->request->get('diceQty')) {
             $diceQty = 1;
             $this->get('session')->set('diceQty', $diceQty);
-            $this->get('session')->set('playerName', $playername);
+            
             return $this->redirectToRoute('app_game21_game21play');
         }
 
         $diceQty = $this->request->request->get('diceQty');
         $this->get('session')->set('diceQty', $diceQty);
-        $this->get('session')->set('playerName', $playername);
+    
         return $this->redirectToRoute('app_game21_game21play');
     }
 
     /**
-     * @Route("/game21/reset",  methods={"GET"})
+     * @Route("/reset",  methods={"GET"})
      */
     public function game21reset(): Response
     {
@@ -101,7 +108,7 @@ class Game21Controller extends AbstractController
     }
 
     /**
-     * @Route("/game21/save-score",  methods={"GET"})
+     * @Route("/save-score",  methods={"GET"})
      */
     public function game21SaveScore(): Response
     {
@@ -128,7 +135,7 @@ class Game21Controller extends AbstractController
         return $this->redirectToRoute('app_game21_game21start');
     }
 
-    private function buttonRoll(int $diceQty): void
+    private function buttonRoll(int $diceQty, string $playerName): void
     {
         $oldTotalPlayer = $this->session->get('totalPlayer');
         $hand = $this->setupAndRoll($diceQty);
@@ -138,7 +145,7 @@ class Game21Controller extends AbstractController
         $this->session->set('rollPlayer', $hand);
         $this->session->set('totalPlayer', $newTotalPLayer);
 
-        if ($this->checkIfOver21("COMPUTER", $newTotalPLayer)) {
+        if ($this->checkIfOver21("COMPUTER", $newTotalPLayer, $playerName)) {
             return;
         }
 
@@ -152,16 +159,16 @@ class Game21Controller extends AbstractController
             $this->session->set('totalComputer', $newTotalComputer);
         }
 
-        if ($this->checkIfOver21("YOU", $newTotalComputer)) {
+        if ($this->checkIfOver21("YOU", $newTotalComputer, $playerName)) {
             return;
         }
 
-        if ($this->checkIf21($newTotalComputer)) {
+        if ($this->checkIf21($newTotalComputer, $playerName)) {
             return;
         }
     }
 
-    private function buttonPass(int $diceQty): void
+    private function buttonPass(int $diceQty, string $playerName): void
     {
         $totalPlayer = $this->session->get('totalPlayer');
         $totalComputer = $this->session->get('totalComputer');
@@ -177,20 +184,11 @@ class Game21Controller extends AbstractController
         $this->session->set('totalComputer', $totalComputer);
 
         if ($totalComputer <= 21) {
-            $message = "COMPUTER WON!!!";
-            $this->session->set('message', $message);
-
-            $newScore = $this->session->get('score');
-            array_push($newScore, ["", "x"]);
-            $this->session->set('score', $newScore);
+            $this->computerWins($playerName);
             return;
         }
 
-        $message = "YOU WON!!!";
-        $newScore = $this->session->get('score');
-        $this->session->set('message', $message);
-        array_push($newScore, ["x", ""]);
-        $this->session->set('score', $newScore);
+        $this->playerWins($playerName);
         return;
     }
 
@@ -198,10 +196,10 @@ class Game21Controller extends AbstractController
     {
         $this->session->set('rollPlayer', 0);
         $this->session->set('rollComputer', 0);
-        // $this->session->set('score', array());
         $this->session->set('totalPlayer', 0);
         $this->session->set('totalComputer', 0);
         $this->session->set('message', "");
+        $this->session->remove('bet');
     }
 
     private function setupAndRoll(int $diceQty): int
@@ -219,37 +217,67 @@ class Game21Controller extends AbstractController
         }
         return false;
     }
+    private function computerWins(string $playerName)
+    {
+        //set winner message
+        $message = "COMPUTER WON!!!";
+        $this->session->set('message', $message);
 
-    private function checkIfOver21(string $who, int $total): bool
+        //adjust score chart array in session
+        $newScore = $this->session->get('score');
+        array_push($newScore, ["", "x"]);
+        $this->session->set('score', $newScore);
+
+        //remove the amount bet from the user pot
+        $bet = $this->session->get('bet');
+        $this->payBet(-$bet, $playerName);
+    }
+
+    private function playerWins(string $playerName)
+    {
+        //set winner message
+        $message = "YOU WON!!!";
+        $this->session->set('message', $message);
+
+        //adjust score chart array in session
+        $newScore = $this->session->get('score');
+        array_push($newScore, ["x", ""]);
+        $this->session->set('score', $newScore);
+
+        //add the amount bet to user pot
+        $bet = $this->session->get('bet');
+        $this->payBet($bet, $playerName);
+    }
+
+    private function payBet(?int $bet, string $playerName)
+    {
+        if ($playerName === "anonymous")
+        {
+            return;
+        }
+        $logic = new BankBusinessLogic($this->getDoctrine());
+        $logic->updateDbWithNewCredit($bet, $playerName);
+        $this->session->remove('bet');
+    }
+
+    private function checkIfOver21(string $who, int $total, string $playerName): bool
     {
         if ($total > 21) {
-            $message = $who . " WON!!!";
-            $this->session->set('message', $message);
-
             if ($who === "COMPUTER") {
-                $newScore = $this->session->get('score');
-                array_push($newScore, ["", "x"]);
-                $this->session->set('score', $newScore);
+               $this->computerWins($playerName);
             }
             if ($who === "YOU") {
-                $newScore = $this->session->get('score');
-                array_push($newScore, ["x", ""]);
-                $this->session->set('score', $newScore);
+               $this->playerWins($playerName);
             }
             return true;
         }
         return false;
     }
 
-    private function checkIf21(int $total): bool
+    private function checkIf21(int $total, string $playerName): bool
     {
         if ($total == 21) {
-            $message = "COMPUTER WON!!!";
-            $this->session->set('message', $message);
-
-            $newScore = $this->session->get('score');
-            array_push($newScore, ["", "x"]);
-            $this->session->set('score', $newScore);
+            $this->computerWins($playerName);
             return true;
         }
         return false;
@@ -266,5 +294,45 @@ class Game21Controller extends AbstractController
             return $counts["x"];
         }
         return 0;
+    }
+
+    private function getUserCredit(string $playerName): ?int
+    {
+        $logic = new BankBusinessLogic($this->getDoctrine());
+        $credit = $logic->getCreditTotal($playerName);
+        return $credit;
+    }
+
+    private function extractUserData(): array
+    {
+        $user = $this->getUser();
+        $userData = array();
+        if ($user) 
+        {
+            $playerName = $user->getUsername();
+            $playerCredit = $this->getUserCredit($playerName);
+            if (!$playerCredit) 
+            {
+                $playerCredit = "This player has no credit";
+            }
+        }
+
+        if (!$user) {
+            $playerName = "anonymous";
+            $playerCredit = "no credit. Please register to bet";
+        }
+
+        $userData = [$playerName, $playerCredit];
+        return $userData;
+    }
+
+    private function isLoggedIn(): bool
+    {
+        $user = $this->getUser();
+        if ($user)
+        {
+            return true;
+        }
+        return false;
     }
 }
