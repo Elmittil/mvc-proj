@@ -11,14 +11,15 @@ class IndexController extends AbstractController
     /**
      * @Route("/")
      */
-    public function symfonyIndex(): Response
+    public function index(): Response
     {
-        return $this->render(
-            'migratedIndex.html.twig',
-            [   "header" => "Symfony",
+        $text = file_get_contents(dirname(__DIR__, 2) . '/public/rules.md');
+        $data = [
                 "message" => "This page is a framework test",
-            ]
-        );
+                "text" => $text,
+        ];
+
+        return $this->render('index.html.twig', $data);
     }
 
     /**
