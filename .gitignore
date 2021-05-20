@@ -5,8 +5,9 @@
 /.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
-/var/
+/var/cache/
 /vendor/
+
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
@@ -19,3 +20,9 @@
 /phpunit.xml
 .phpunit.result.cache
 ###< phpunit/phpunit ###
+
+build/coverage/
+build/coverage.clover
+build/coverage/BankBusinessLogic.php.html
+build/coverage/Controller/dashboard.html
+var/log/dev.log
