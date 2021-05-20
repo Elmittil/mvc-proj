@@ -8,7 +8,10 @@
         {% if loggedIn and credit > 0 %}
         <p> {{ player }} has {{ credit }}
         {% endif %}
-        {% if not player == "anonymous" and not bet %}
+        {% if credit == 0 or credit is null %}
+        <p>Buy credit to play</p>
+        {# {% endif %} #}
+        {% elseif player != "anonymous" and not bet %}
         <p> you have to bet to play</p>
         {% endif %}
     </div>
