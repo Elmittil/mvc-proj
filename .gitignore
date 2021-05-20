@@ -21,8 +21,6 @@
 .phpunit.result.cache
 ###< phpunit/phpunit ###
 
-build/coverage/
-build/coverage.clover
-build/coverage/BankBusinessLogic.php.html
-build/coverage/Controller/dashboard.html
+build/
 var/log/dev.log
+

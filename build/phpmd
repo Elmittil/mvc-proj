@@ -1,2 +1,0 @@
-/Users/anna_kovalieva/dbwebb-kurser/mvc/me/proj/src/Controller/BankController.php:21	Avoid using static access to class '\Symfony\Component\HttpFoundation\Request' in method '__construct'.
-/Users/anna_kovalieva/dbwebb-kurser/mvc/me/proj/src/Controller/Game21Controller.php:26	Avoid using static access to class '\Symfony\Component\HttpFoundation\Request' in method '__construct'.
