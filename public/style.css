@@ -195,6 +195,20 @@ fieldset[disabled]{
     margin-top: 0;
 }
 
+.top-score-chart {
+    margin: 0 40px 0 0;
+    text-align: center;
+    font-family: 'Teko', sans-serif;
+    font-weight: 700;
+    color: #227C9D;
+    font-size: 18px;
+    width: 30%;
+}
+
+.top-score-chart p {
+    margin-top: 0;
+}
+
 .player-computer-title {
     margin: 20px 20%;
     text-align: center;
@@ -342,7 +356,8 @@ label img {
   
   .histo-star {
     float: left;
-    padding: 3px;
+    /* padding: 3px; */
+    font-size: 37px;
   }
   
   .histo-rate {
@@ -353,15 +368,15 @@ label img {
   
   .bar-block {
     margin-left: 5px;
-    color: black;
+    color: white;
     display: block;
     float: left;
     width: 75%;
     position: relative;
   }
-  
+
   .bar {
-    padding: 9px;
+    padding: 15px;
     display: block;
   }
   
