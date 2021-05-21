@@ -76,4 +76,11 @@ class BankBusinessLogic
         $die = $repository->findOneBy(['dice_value' => $dieValue]);
         return $die;
     }
+
+    public function getDieObjectsFromDB(): array
+    {
+        $repository = $this->registry->getRepository(Dicestatistic::class);
+        $histogram = $repository->findAll();
+        return $histogram;
+    }
 }

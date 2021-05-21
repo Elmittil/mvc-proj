@@ -19,6 +19,23 @@ class DicestatisticRepository extends ServiceEntityRepository
         parent::__construct($registry, Dicestatistic::class);
     }
 
+    /**
+     * @return int
+     */
+    public function getTotalDiceRolls(): int
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT SUM(s.occurrence) as total
+            FROM App\Entity\Dicestatistic s
+            '
+        );
+        
+        // returns an array of Product objects
+        $result = $query->getResult();
+        return $result[0]['total'];
+    }
     // /**
     //  * @return Dicestatistic[] Returns an array of Dicestatistic objects
     //  */
