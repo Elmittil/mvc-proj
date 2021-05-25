@@ -19,22 +19,23 @@ class WinpergameRepository extends ServiceEntityRepository
         parent::__construct($registry, Winpergame::class);
     }
 
-    // /**
-    //  * @return Winpergame[] Returns an array of Winpergame objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Score[]
+     */
+    public function showTopTenWins(): array
     {
-        return $this->createQueryBuilder('w')
-            ->andWhere('w.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('w.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT s
+            FROM App\Entity\Winpergame s
+            ORDER BY s.bet_won DESC
+            '
+        );
+        $query->setMaxResults(10);
+        // returns an array of Product objects
+        return $query->getResult();
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Winpergame

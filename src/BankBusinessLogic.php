@@ -3,6 +3,7 @@
 namespace App\BusinessLogic;
 
 use App\Entity\Bank;
+use App\Entity\Winpergame;
 use App\Entity\Dicestatistic;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -82,5 +83,16 @@ class BankBusinessLogic
         $repository = $this->registry->getRepository(Dicestatistic::class);
         $histogram = $repository->findAll();
         return $histogram;
+    }
+
+    public function addWinRecord(string $playerName, int $bet)
+    {
+        $entityManager = $this->registry->getManager();
+        $win = new Winpergame();
+        $win->setPlayerName($playerName);
+        $win->setBetWon($bet);
+
+        $entityManager->persist($win);
+        $entityManager->flush();
     }
 }
