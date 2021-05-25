@@ -3,6 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Score;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\DependencyInjection\Parameter;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -22,7 +24,7 @@ class ScoreRepository extends ServiceEntityRepository
     /**
      * @return Score[]
      */
-    public function showAllSortedDesc(string $game): array
+    public function showTop10Scores(string $game): array
     {
         $entityManager = $this->getEntityManager();
 
@@ -32,7 +34,34 @@ class ScoreRepository extends ServiceEntityRepository
             WHERE s.game = :game
             ORDER BY s.score DESC
             '
-        )->setParameter('game', $game);
+        )->setParameter("game", $game);
+        // )->setParameters(new ArrayCollection([
+        //     new Parameter('game', $game),
+        //     new Parameter('order', $order)
+        // ]));
+        $query->setMaxResults(10);
+        // returns an array of Product objects
+        return $query->getResult();
+    }
+
+    /**
+     * @return Score[]
+     */
+    public function showBottom10Scores(string $game): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT s
+            FROM App\Entity\Score s
+            WHERE s.game = :game
+            ORDER BY s.score ASC
+            '
+        )->setParameter("game", $game);
+        // )->setParameters(new ArrayCollection([
+        //     new Parameter('game', $game),
+        //     new Parameter('order', $order)
+        // ]));
         $query->setMaxResults(10);
         // returns an array of Product objects
         return $query->getResult();
