@@ -252,8 +252,11 @@ class Game21Controller extends BaseController
 
         //add the amount bet to user pot
         $bet = $this->session->get('bet');
-        $this->payBet($bet, $playerName);
-        $this->recordWinningBet($playerName, $bet);
+        if ($bet)
+        {
+            $this->payBet($bet, $playerName);
+            $this->recordWinningBet($playerName, $bet);
+        }
     }
 
     private function payBet(?int $bet, string $playerName)
@@ -307,12 +310,6 @@ class Game21Controller extends BaseController
         }
         return 0;
     }
-
-    
-
-    
-
-    
 
     private function saveRolledDiceToDB(array $rolledDice)
     {
