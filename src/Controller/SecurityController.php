@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use App\Repository\UserRepository;
 
-class SecurityController extends AbstractController
+class SecurityController extends BaseController
 {
     /**
      * @Route("/login", name="app_login")

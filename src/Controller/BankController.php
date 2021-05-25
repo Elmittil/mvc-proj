@@ -8,27 +8,26 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Bank;
+use App\Controller\Game21Controller;
 use App\BusinessLogic\BankBusinessLogic;
 
-class BankController extends AbstractController
+class BankController extends BaseController
 {
-    private $session;
-    private $request;
-
-    public function __construct(SessionInterface $session)
-    {
-        $this->session = $session;
-        $this->request = Request::createFromGlobals();
-    }
-
     /**
      * @Route("/bank", name="bank")
      */
     public function index(): Response
     {
+        $userData = $this->extractUserData();
+        $loggedIn = $this->isLoggedIn();
+        
+        $data = [
+            'player' => $userData[0],
+            'credit' => $userData[1],
+            'loggedIn' => $loggedIn,
+        ];
 
-        return $this->render('buy-credit.html.twig', [
-        ]);
+        return $this->render('buy-credit.html.twig', $data);
     }
 
     /**

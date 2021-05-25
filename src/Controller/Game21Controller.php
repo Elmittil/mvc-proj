@@ -15,7 +15,7 @@ use App\BusinessLogic\BankBusinessLogic;
 
 require_once __DIR__ . "/../../bin/bootstrap.php";
 
-class Game21Controller extends AbstractController
+class Game21Controller extends BaseController
 {
     private $session;
     private $request;
@@ -253,6 +253,7 @@ class Game21Controller extends AbstractController
         //add the amount bet to user pot
         $bet = $this->session->get('bet');
         $this->payBet($bet, $playerName);
+        $this->recordWinningBet($playerName, $bet);
     }
 
     private function payBet(?int $bet, string $playerName)
@@ -263,6 +264,12 @@ class Game21Controller extends AbstractController
         $logic = new BankBusinessLogic($this->getDoctrine());
         $logic->updateDbWithNewCredit($bet, $playerName);
         $this->session->remove('bet');
+    }
+
+    private function recordWinningBet(string $playerName, int $bet)
+    {
+        $logic = new BankBusinessLogic($this->getDoctrine());
+        $logic->addWinRecord($playerName, $bet);
     }
 
     private function checkIfOver21(string $who, int $total, string $playerName): bool
@@ -301,41 +308,11 @@ class Game21Controller extends AbstractController
         return 0;
     }
 
-    private function getUserCredit(string $playerName): ?int
-    {
-        $logic = new BankBusinessLogic($this->getDoctrine());
-        $credit = $logic->getCreditTotal($playerName);
-        return $credit;
-    }
+    
 
-    private function extractUserData(): array
-    {
-        $user = $this->getUser();
-        if ($user) {
-            $playerName = $user->getUsername();
-            $playerCredit = $this->getUserCredit($playerName);
-            if ($playerCredit === null) {
-                $playerCredit = "This player has no credit";
-            }
-        }
+    
 
-        if (!$user) {
-            $playerName = "anonymous";
-            $playerCredit = "no credit. Please register to bet";
-        }
-
-        $userData = [$playerName, $playerCredit];
-        return $userData;
-    }
-
-    private function isLoggedIn(): bool
-    {
-        $user = $this->getUser();
-        if ($user) {
-            return true;
-        }
-        return false;
-    }
+    
 
     private function saveRolledDiceToDB(array $rolledDice)
     {
