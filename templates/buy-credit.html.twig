@@ -4,6 +4,9 @@
 
 <div class="game21-wrapper">
     <div class="centered-content">
+    {% if loggedIn and credit > 0 %}
+        <p> User "{{ player }}" has {{ credit }} credits</p>
+        {% endif %}
         <form action="{{ app.request.getBaseURL() }}/buy-credit" method="post" class="die-choice">
             <div class="radio-b">
                 <div class="radio-duo">
