@@ -2,23 +2,41 @@
 
 {% block content %}
 <div class="game21-wrapper">
-   <div class="centered-content"> 
-        <div class="top-score-chart">
-            <h3>Plays per game<h3>
-            <table class="rounds">
-                <tr>
-                    <th>Name</th>
-                    <th>Score</th>
-                </tr>
-                {% for score in scoresGame21 %}
+    <div class="centered-content"> 
+        <div class="charts">
+            <div class="top-score-chart">
+                <h3> <a href='{{ app.request.getBaseURL() }}/top-scores?kind=top'>Top</a> /
+                <a href='{{ app.request.getBaseURL() }}/top-scores?kind=bottom'>bottom</a> plays per game<h3>
+                <table class="rounds">
                     <tr>
-                        <td>{{ score.0 }}</td>
-                        <td>{{ score.1 }}</td>
+                        <th>Name</th>
+                        <th>Score</th>
                     </tr>
-                {% endfor %}
-            </table>
-        </div>
+                    {% for score in scoresGame21 %}
+                        <tr>
+                            <td>{{ score.0 }}</td>
+                            <td>{{ score.1 }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
 
+            <div class="top-score-chart">
+                <h3>Highest bets won<h3>
+                <table class="rounds">
+                    <tr>
+                        <th>Name</th>
+                        <th>Bet</th>
+                    </tr>
+                    {% for win in wins %}
+                        <tr>
+                            <td>{{ win.0 }}</td>
+                            <td>{{ win.1 }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
         <div class="histo">
         <p>How often do dice roll specific faces?</p>
     
