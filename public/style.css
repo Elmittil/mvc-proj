@@ -1,6 +1,6 @@
 body {
     overflow-y: scroll;
-    margin: 8px auto;
+    margin: 0;
     background-color: #FFFCF5;
 }
 
@@ -52,9 +52,12 @@ nav a:hover {
 }
 
 footer {
+    padding-top: 20px;
     min-height: 4em;
     text-align: right;
     width: 100%;
+    background-color: #FE6D73;
+    color: #FFFCF5;
 }
 
 .game21-wrapper {
@@ -265,7 +268,7 @@ th {
 
 .radio-b {
     width: 80%;
-    margin: 60px auto 40px;
+    margin: 40px auto 40px;
 }
 
 .radio-b input[type="text"] {
@@ -349,9 +352,10 @@ label img {
 /*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vLi9hc3NldHMvc3R5bGVzL2FwcC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7SUFDSSwyQkFBMkI7QUFDL0IiLCJmaWxlIjoiYXBwLmNzcyIsInNvdXJjZXNDb250ZW50IjpbImJvZHkge1xuICAgIGJhY2tncm91bmQtY29sb3I6IGxpZ2h0Z3JheTtcbn1cbiJdLCJzb3VyY2VSb290IjoiIn0=*/
 
 .histo {
-    float: left;
+    /* float: center; */
     width: 100%;
     font-size: 13px;
+    margin-bottom: 70px;
   }
   
   .histo-star {
@@ -381,31 +385,30 @@ label img {
   }
   
   #bar-six {
-    /* width: 0; */
     background-color: #5a9bc0;
   }
 
   #bar-five {
-    /* width: 0; */
     background-color: #9FC05A;
   }
   
   #bar-four {
-    /* width: 0; */
     background-color: #ADD633;
   }
   
   #bar-three {
-    /* width: 0; */
     background-color: #FFD834;
   }
   
   #bar-two {
-    /* width: 0; */
     background-color: #FFB234;
   }
   
   #bar-one {
-    /* width: 0; */
     background-color: #FF8B5A;
+  }
+
+  .charts {
+    display: flex;
+    justify-content: space-around;
   }
