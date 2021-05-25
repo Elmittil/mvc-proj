@@ -357,19 +357,19 @@ label img {
     font-size: 13px;
     margin-bottom: 70px;
   }
-  
+
   .histo-star {
     float: left;
     /* padding: 3px; */
     font-size: 37px;
   }
-  
+
   .histo-rate {
     width: 100%;
     display: block;
     clear: both;
   }
-  
+
   .bar-block {
     margin-left: 5px;
     color: white;
@@ -383,7 +383,7 @@ label img {
     padding: 15px;
     display: block;
   }
-  
+
   #bar-six {
     background-color: #5a9bc0;
   }
@@ -391,19 +391,19 @@ label img {
   #bar-five {
     background-color: #9FC05A;
   }
-  
+
   #bar-four {
     background-color: #ADD633;
   }
-  
+
   #bar-three {
     background-color: #FFD834;
   }
-  
+
   #bar-two {
     background-color: #FFB234;
   }
-  
+
   #bar-one {
     background-color: #FF8B5A;
   }

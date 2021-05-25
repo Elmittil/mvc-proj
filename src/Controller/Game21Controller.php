@@ -11,20 +11,20 @@ use App\Dice\DiceHand;
 use App\Entity\Score;
 use App\Entity\User;
 use App\Entity\Bank;
-use App\BusinessLogic\BankBusinessLogic;
+use App\BankBusinessLogic\BankBusinessLogic;
 
 require_once __DIR__ . "/../../bin/bootstrap.php";
 
 class Game21Controller extends BaseController
 {
-    private $session;
-    private $request;
+    // private $session;
+    // public $request;
 
-    public function __construct(SessionInterface $session)
-    {
-        $this->session = $session;
-        $this->request = Request::createFromGlobals();
-    }
+    // public function __construct(SessionInterface $session)
+    // {
+    //     $this->session = $session;
+    //     $this->request = Request::createFromGlobals();
+    // }
 
     /**
      * @Route("/start")
@@ -112,7 +112,7 @@ class Game21Controller extends BaseController
     public function game21SaveScore(): Response
     {
         $user = $this->getUser();
-        if (!$user){
+        if (!$user) {
             $this->resetGame();
             return $this->redirectToRoute('app_game21_game21start');
         }
@@ -252,8 +252,7 @@ class Game21Controller extends BaseController
 
         //add the amount bet to user pot
         $bet = $this->session->get('bet');
-        if ($bet)
-        {
+        if ($bet) {
             $this->payBet($bet, $playerName);
             $this->recordWinningBet($playerName, $bet);
         }
@@ -314,8 +313,7 @@ class Game21Controller extends BaseController
     private function saveRolledDiceToDB(array $rolledDice)
     {
         $logic = new BankBusinessLogic($this->getDoctrine());
-        foreach ($rolledDice as $die)
-        {
+        foreach ($rolledDice as $die) {
             $logic->saveRolledDiceValuesToDB($die);
         }
     }

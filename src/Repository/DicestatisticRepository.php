@@ -31,7 +31,7 @@ class DicestatisticRepository extends ServiceEntityRepository
             FROM App\Entity\Dicestatistic s
             '
         );
-        
+
         // returns an array of Product objects
         $result = $query->getResult();
         return $result[0]['total'];

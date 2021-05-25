@@ -20,9 +20,9 @@ class WinpergameRepository extends ServiceEntityRepository
     }
 
     /**
-     * @return Score[]
+     * @return Winpergame[]
      */
-    public function showTopTenWins(): array
+    public function showTopTenWins()
     {
         $entityManager = $this->getEntityManager();
 

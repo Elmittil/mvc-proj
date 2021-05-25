@@ -7,13 +7,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\BusinessLogic\BankBusinessLogic;
+use App\BankBusinessLogic\BankBusinessLogic;
 
 class BaseController extends AbstractController
 {
 
-    private $session;
-    private $request;
+    public $session;
+    public $request;
 
     public function __construct(SessionInterface $session)
     {

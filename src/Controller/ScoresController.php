@@ -10,29 +10,29 @@ use App\Repository\ScoreRepository;
 use App\Repository\WinpergameRepository;
 use App\Repository\DicestatisticRepository;
 use App\Entity\Score;
+use App\Entity\Winpergame;
 use App\Entity\Dicestatistic;
-use App\BusinessLogic\BankBusinessLogic;
-
+use App\BankBusinessLogic\BankBusinessLogic;
 
 class ScoresController extends BaseController
 {
-    private $request;
+    // private $request;
 
-    public function __construct()
-    {
-        $this->request = Request::createFromGlobals();
-    }
+    // public function __construct()
+    // {
+    //     $this->request = Request::createFromGlobals();
+    // }
     /**
      * @Route("/top-scores", name="show_scores", methods={"GET"})
      */
     public function showScores(WinpergameRepository $winRepository, ScoreRepository $scoreRepository, DicestatisticRepository $diceRepository): Response
     {
+        $allScoresGame21 = array();
         $whichPage = $this->request->query->get('kind');
-        if ($whichPage === "top" || is_null($whichPage)){
+        if ($whichPage === "top" || is_null($whichPage)) {
             $allScoresGame21 = $this->getTopScores21($scoreRepository);
         }
-        if ($whichPage === "bottom")
-        {
+        if ($whichPage === "bottom") {
             $allScoresGame21 = $this->getBottomScores21($scoreRepository);
         }
         $highestWins = $this->getWins($winRepository);
@@ -56,8 +56,7 @@ class ScoresController extends BaseController
 
         $totalRolls = $diceRepository->getTotalDiceRolls();
         $histogram = array();
-        foreach ($allDiceObjects as $dieObject)
-        {
+        foreach ($allDiceObjects as $dieObject) {
             $occurrence = $dieObject->getOccurrence();
             $percentage = ($occurrence / $totalRolls) * 100;
             array_push($histogram, [$occurrence, $percentage]);
@@ -87,7 +86,7 @@ class ScoresController extends BaseController
         return $allScoresGame21;
     }
 
-   
+
     private function getWins(WinpergameRepository $winRepository): array
     {
         $wins = $winRepository->showTopTenWins();

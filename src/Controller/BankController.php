@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\Bank;
 use App\Controller\Game21Controller;
-use App\BusinessLogic\BankBusinessLogic;
+use App\BankBusinessLogic\BankBusinessLogic;
 
 class BankController extends BaseController
 {
@@ -20,7 +20,7 @@ class BankController extends BaseController
     {
         $userData = $this->extractUserData();
         $loggedIn = $this->isLoggedIn();
-        
+
         $data = [
             'player' => $userData[0],
             'credit' => $userData[1],

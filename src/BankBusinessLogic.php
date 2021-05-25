@@ -1,6 +1,6 @@
 <?php
 
-namespace App\BusinessLogic;
+namespace App\BankBusinessLogic;
 
 use App\Entity\Bank;
 use App\Entity\Winpergame;
@@ -65,7 +65,7 @@ class BankBusinessLogic
         $timesBeenRolled = $die->getOccurrence();
         $newValue = $timesBeenRolled + 1;
         $die->setOccurrence($newValue);
-        
+
         $entityManager = $this->registry->getManager();
         $entityManager->persist($die);
         $entityManager->flush();
