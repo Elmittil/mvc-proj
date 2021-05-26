@@ -15,8 +15,10 @@
             <input type='submit' class="new-game-button" value='Play anonymously'/>
         </a>
     </div>
-    {% apply markdown_to_html %}
-    {{ text }}
-    {% endapply %}
+    <div class="rules-text">
+        {% apply markdown_to_html %}
+            {{ text }}
+        {% endapply %}
+    </div>
 </div>
 {% endblock %}
