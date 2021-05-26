@@ -2,7 +2,7 @@
 
 # Game 21
 
-![site-header]()
+![site-header](https://github.com/Elmittil/mvc-proj/blob/master/public/img/game21_screen.png)
 
 ## Exam project for MVC course at BTH  
 
